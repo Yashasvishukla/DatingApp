@@ -1,0 +1,8 @@
+.vscode
+bin
+obj
+*.db-shm
+*.db-wal
+*.db
+migrations
+*.browserlistrc
