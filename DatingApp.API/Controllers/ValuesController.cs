@@ -20,6 +20,7 @@ namespace DatingApp.API.Controllers
             _db = db;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetValues(){
             var obj = await _db.Values.ToListAsync();
@@ -29,6 +30,7 @@ namespace DatingApp.API.Controllers
             }
             return Ok(obj);
         }
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetValue(int id){
             var value = await _db.Values.FirstOrDefaultAsync(x=>x.Id==id);
