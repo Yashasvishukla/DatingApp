@@ -3,18 +3,16 @@
   <hr>
 
   <div class="form-group">
-    <input type="text" class="form-control" 
-    required name="username" [(ngModel)]="model.username" placeholder="Username">
+    <input type="text" class="form-control" required name="username" [(ngModel)]="model.username" placeholder="Username">
   </div>
 
   <div class="form-group">
-    <input type="password" class="form-control" required name="password" 
-    [(ngModel)]="model.password" placeholder="Password">
+    <input type="password" class="form-control" required name="password" [(ngModel)]="model.password" placeholder="Password">
   </div>
 
   <div class="form-group text-center">
-    <button class="btn btn-success mr-2" type="submit">Register</button>
-    <button class="btn btn-danger" (click)="cancel()" type="button">Cancel</button>
+    <button class="btn btn-success btn-sm mr-2" type="submit">Register</button>
+    <button class="btn btn-danger btn-sm" (click)="cancel()" type="button">Cancel</button>
   </div>
   
 </form>

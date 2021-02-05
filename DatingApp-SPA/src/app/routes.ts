@@ -1,24 +1,31 @@
-import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import {Routes} from '@angular/router';
+import { HomeComponent} from './home/home.component';
 import { ListsComponent } from './lists/lists.component';
-import { MemberListComponent } from './member-list/member-list.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemeberDetailComponent } from './members/memeber-detail/memeber-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
+import { MemeberListResolver } from './_resolvers/member-list.resolver';
 
 export const appRoutes: Routes = [
-    {path: '', component: HomeComponent},
+    {path : '', component : HomeComponent},
+
     {
         path: '',
         runGuardsAndResolvers: 'always',
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         children: [
-            { path: 'members', component: MemberListComponent},
-            { path: 'lists', component: ListsComponent},
-            { path: 'messages', component: MessagesComponent},
+            { path : 'members' , component : MemberListComponent , resolve: {users: MemeberListResolver}},
+            { path : 'members/:id' , component : MemeberDetailComponent , resolve: {user : MemberDetailResolver}},
+            { path: 'member/edit', component: MemberEditComponent,
+            resolve : {user: MemberEditResolver}, canDeactivate: [PreventUnsavedChanges]},
+            { path : 'lists' , component : ListsComponent},
+            { path : 'messages' , component : MessagesComponent},
         ]
     },
-    {path: '**' , redirectTo: '' , pathMatch: 'full'}
-
-]
-// tslint:disable-next-line: eofline
-;
+    { path : '**' , redirectTo: '' , pathMatch : 'full'}
+];

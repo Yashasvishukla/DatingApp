@@ -1,46 +1,44 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpErrorResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaderResponse, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
+export class ErrorInterceptor implements HttpInterceptor{
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(
-            catchError(error =>{
-                if(error.status === 401){
+            catchError(error => {
+                if (error.status === 401){
                     return throwError(error.statusText);
                 }
-
-                // For 500 type error
-                if(error instanceof HttpErrorResponse){
-                    const ApplicationError = error.headers.get('Application-Error');
-                    if(ApplicationError){
-                        return throwError(ApplicationError);
+                if (error instanceof HttpErrorResponse){
+                    const applicationError = error.headers.get('Application-Error');
+                    if (applicationError){
+                        return throwError(applicationError);
                     }
-                }
 
-                // Rest of the errors
-                const serverError = error.error;
-                let modelState = '';
-                if(serverError.errors && typeof serverError.errors === 'object'){
-                    for(const key in serverError.errors){
-                        if(serverError.errors[key]){
-                            modelState += serverError.errors[key] + '\n';
+                    const serverError = error.error;
+                    let modelStateErrors = '';
+                    if (serverError.errors && typeof serverError.errors === 'object'){
+                        for (const key in serverError.errors){
+                            if (serverError.errors[key]){
+                                modelStateErrors += serverError.errors[key] + '\n';
+                            }
                         }
                     }
+                    return throwError(modelStateErrors || serverError || 'Server Error');
                 }
-
-                return throwError(modelState || serverError || 'Server Error');
             })
         );
     }
+
 }
 
 
-// Expose the interceptor 
+// Register the interceptor since there are already many interceptor
+
 export const ErrorInterceptorProvider = {
-    provide : HTTP_INTERCEPTORS,
-    useClass : ErrorInterceptor,
-    multi : true
-};
+    provide: HTTP_INTERCEPTORS,
+    useClass: ErrorInterceptor,
+    multi: true
+}

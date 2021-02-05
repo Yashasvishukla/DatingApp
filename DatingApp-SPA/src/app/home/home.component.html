@@ -3,17 +3,16 @@
     <h1>Find your match</h1>
     <p class="lead">Come on in to view your matches... All you need to do is sign up!</p>
     <div class="text-center">
-      <button class="btn btn-primary btn-m mr-2" (click)="registerToggle()" >Register</button>
-      <button class="btn btn-info btn-m">Learn more</button>
+      <button class="btn btn-primary btn-sm mr-2" (click)="registerToggle()">Register</button>
+      <button class="btn btn-info btn-sm">Learn more</button>
     </div>
   </div>
 
   <div *ngIf="registerMode" class="container">
     <div class="row justify-content-center">
       <div class="col-4">
-        <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+          <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>  
       </div>
     </div>
   </div>
 </div>
-

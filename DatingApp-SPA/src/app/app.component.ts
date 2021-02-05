@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './_services/auth.service';
 
 @Component({
@@ -8,15 +8,13 @@ import { AuthService } from './_services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'App';
-  jwthelper = new JwtHelperService();
+  title = 'Dating App';
   constructor(private authService: AuthService){}
-  ngOnInit(){
+
+  ngOnInit(): void {
     const token = localStorage.getItem('token');
-    if(token){
-      this.authService.decodedToken = this.jwthelper.decodeToken(token);
+    if (token){
+      this.authService.decodedToken = this.authService.jwtHelper.decodeToken(token);
     }
   }
-  
-
 }

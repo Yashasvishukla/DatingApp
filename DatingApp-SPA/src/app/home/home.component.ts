@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   registerMode = false;
-  constructor(private http: HttpClient) { }
+  
+  constructor() { }
 
   ngOnInit() {
   }
@@ -17,8 +17,8 @@ export class HomeComponent implements OnInit {
     this.registerMode = true;
   }
 
-
   cancelRegisterMode(registerMode: boolean){
     this.registerMode = registerMode;
   }
+
 }
