@@ -26,7 +26,7 @@
     "bootstrap": "4.1.1",
     "bootswatch": "^4.5.2",
     "font-awesome": "^4.7.0",
-    "ngx-bootstrap": "^3.3.0",
+    "ngx-bootstrap": "^6.2.0",
     "ngx-gallery-9": "^1.0.6",
     "ngx-toastr": "^13.2.0",
     "rxjs": "~6.6.0",

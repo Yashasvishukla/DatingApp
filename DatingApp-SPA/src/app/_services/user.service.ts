@@ -30,8 +30,8 @@ constructor(private http: HttpClient, private alertify: AlertifyService, private
     return this.http.get<User>(this.baseUrl + 'users/' + id);
   }
 
-  updateUser(model: User){
-    return this.http.post(this.baseUrl + 'users',model);
+  updateUser(id, model: any){
+    return this.http.put(this.baseUrl + 'users/' + id, model);
   }
 
 

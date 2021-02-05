@@ -16,7 +16,7 @@
 
       <div *ngIf="loggedIn()" class="dropdown" style="cursor: pointer;" dropdown>
         <a class="dropdown-toggle text-light" style="text-decoration: none;" dropdownToggle> 
-          Welcome {{authService.decodedToken?.unique_name | titlecase}}
+          Welcome {{authService.decodedToken.unique_name | titlecase}}
         </a>
         <div class="dropdown-menu mt-3" *dropdownMenu>
           <a class="dropdown-item" [routerLink]="['/member/edit']"> <i class="fa fa-user"></i> Edit Profile</a>
