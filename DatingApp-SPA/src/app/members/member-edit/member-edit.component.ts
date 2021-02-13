@@ -17,7 +17,7 @@ export class MemberEditComponent implements OnInit {
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any){
-    if(this.editForm.dirty){
+    if (this.editForm.dirty){
       $event.returnValue = true;
     }
   }
@@ -44,6 +44,11 @@ export class MemberEditComponent implements OnInit {
         this.alertify.error('Error occured while updating' + error);
       }
     );
+  }
+
+  updateMainPhoto(photoUrl){
+    this.user.photoUrl = photoUrl;
+    this.authService.photoUrl.next(this.user.photoUrl);
   }
 
 }

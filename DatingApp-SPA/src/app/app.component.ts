@@ -16,5 +16,10 @@ export class AppComponent implements OnInit {
     if (token){
       this.authService.decodedToken = this.authService.jwtHelper.decodeToken(token);
     }
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user){
+      this.authService.currentUser = user;
+      this.authService.photoUrl.next(user.photoUrl);
+    }
   }
 }
