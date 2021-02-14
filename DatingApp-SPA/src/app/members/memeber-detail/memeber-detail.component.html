@@ -3,7 +3,7 @@
     <div class="col-sm-4">
 
       <div class="card">
-        <img class="card-img-top img-thumbnail" src="{{user.photoUrl}}" alt="{{user.knownAs}}">
+        <img class="card-img-top img-thumbnail" src="{{user.photoUrl || '../../../assets/user.png'}}" alt="{{user.knownAs}}">
         <div class="card-body">
           <div>
             <strong>Location:</strong>
@@ -46,8 +46,10 @@
           <tab heading="About {{user.knownAs}}">
             <h4>Description</h4>
             <p>{{user.introduction}}</p>
-            <h4>Looking For</h4>
-            <p>{{user.lookingFor}}</p>
+            <div *ngIf="user.introduction">  
+              <h4>Looking For</h4>
+              <p>{{user.lookingFor}}</p>
+            </div>
           </tab> 
 
           <tab heading="Interests">

@@ -24,7 +24,6 @@ export class MemeberDetailComponent implements OnInit {
       }
     );
 
-
     this.galleryOptions = [
       {
           width: '500px',
