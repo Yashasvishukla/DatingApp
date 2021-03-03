@@ -30,7 +30,9 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { TimeAgoPipe } from 'time-ago-pipe';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TimeagoModule } from 'ngx-timeago';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 export function tokenGetter(){
   return localStorage.getItem('token');
 }
@@ -48,7 +50,6 @@ export function tokenGetter(){
       MemeberDetailComponent,
       MemberEditComponent,
       PhotoEditorComponent,
-      TimeAgoPipe
    ],
   imports: [
     BrowserModule,
@@ -59,6 +60,8 @@ export function tokenGetter(){
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
+    PaginationModule.forRoot(),
+    ButtonsModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     NgxGalleryModule,
     FileUploadModule,
@@ -68,7 +71,8 @@ export function tokenGetter(){
         allowedDomains : ['localhost:5000'],
         disallowedRoutes: ['localhost:5000/api/auth']
       }
-    })
+    }),
+    TimeagoModule.forRoot()
   ],
   providers: [
     AuthService,

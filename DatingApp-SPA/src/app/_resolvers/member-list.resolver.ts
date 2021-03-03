@@ -8,8 +8,10 @@ import { UserService } from "../_services/user.service";
 
 @Injectable()
 export class MemeberListResolver implements Resolve<User[]>{
-    constructor(private userService: UserService, private alertify : AlertifyService, private route: Router) {}
+    constructor(private userService: UserService, private alertify: AlertifyService, private route: Router) {}
 
+    pageNumber = 1;
+    pageSize = 6;
     resolve(): Observable<User[]>{
         return this.userService.getUsers().pipe(
             catchError(error => {

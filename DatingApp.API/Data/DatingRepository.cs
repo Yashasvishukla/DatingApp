@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatingApp.API.Helpers;
 using DatingApp.API.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Data
@@ -41,16 +44,43 @@ namespace DatingApp.API.Data
             return user;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
-        {
-            var users =await _conext.Users.Include(p=>p.Photos).ToListAsync();
-            return users;
 
+
+        public async Task<IEnumerable<User>> GetUsers(UserParmas userParams)
+        {
+            
+            var minDob = DateTime.Now.AddYears(-userParams.MaxAge - 1);
+            var maxDob = DateTime.Now.AddYears(userParams.MinAge);
+
+            var users = string.IsNullOrEmpty(userParams.OrderBy) == true ? await _conext.Users.Include(p => p.Photos).Where(u => u.Id != userParams.UserId).
+               Where(u => u.Gender == userParams.Gender).Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob).OrderByDescending(u => u.LastActive).ToListAsync()
+               : (userParams.OrderBy.Equals("created") ? await _conext.Users.Include(p => p.Photos).Where(u => u.Id != userParams.UserId).
+               Where(u => u.Gender == userParams.Gender).Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob).OrderByDescending(u => u.Created).ToListAsync()
+               : await _conext.Users.Include(p => p.Photos).Where(u => u.Id != userParams.UserId).
+               Where(u => u.Gender == userParams.Gender).Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob).OrderByDescending(u => u.LastActive).ToListAsync());
+
+
+
+
+            return users;
         }
+
+        /* Pagination Implementation */
+
+        /*
+        public async Task<PagedList<User>> GetUsers(UserParams userParmas)
+        {
+            var users = _conext.Users.Include(p => p.Photos); // Since we wan to deffer the execution so we won't we doing toListAsync here;
+
+            return await PagedList<User>.CreateAsync(users, userParmas.PageNumber, userParmas.PageSize);
+
+        } 
+        */
 
         public async Task<bool> SaveAll()
         {
             return await _conext.SaveChangesAsync() >0 ;
         }
+
     }
 }
