@@ -24,7 +24,7 @@ export class UserService {
   baseUrl = environment.apiUrl;
 constructor(private http: HttpClient, private alertify: AlertifyService, private router: Router) { }
 
-  getUsers(userParams?): Observable<PaginatedResult<User[]>>{
+  getUsers(userParams?, likeParams? ): Observable<PaginatedResult<User[]>>{
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
     let params = new HttpParams();
     // if ( page != null && itemsPerPage != null){
@@ -38,6 +38,14 @@ constructor(private http: HttpClient, private alertify: AlertifyService, private
       params = params.append('gender', userParams.gender);
       params = params.append('orderBy', userParams.orderBy);
     }
+
+    if (likeParams === 'Likers'){
+      params = params.append('Likers', ' true');
+    }
+    if (likeParams === 'Likees'){
+      params = params.append('Likees' , 'true');
+    }
+
 
     return this.http.get<User[]>(this.baseUrl + 'users', {observe: 'response', params}).pipe(
       map(response => {
@@ -64,6 +72,10 @@ constructor(private http: HttpClient, private alertify: AlertifyService, private
 
   deletePhoto(userId: number, id: number){
     return this.http.delete(this.baseUrl + 'users/' + userId + '/photos/' + id);
+  }
+
+  sendLike(id: number, recipientId: number){
+    return this.http.post(this.baseUrl + 'users/' + id + '/like/' + recipientId, {});
   }
 
 }

@@ -43,7 +43,6 @@ userParams: any = {};
 loadUsers(): void{
   this.userService.getUsers(this.userParams).subscribe(
     (res: PaginatedResult<User[]>) => {
-      debugger;
       this.users = res.result;
       this.pagination = res.pagination;
     },
