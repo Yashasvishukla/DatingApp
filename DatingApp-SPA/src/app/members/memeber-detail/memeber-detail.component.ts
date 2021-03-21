@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TabsetComponent } from 'ngx-bootstrap/tabs/tabset.component';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from 'ngx-gallery-9';
 import { User } from 'src/app/_models/user';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -15,6 +16,7 @@ export class MemeberDetailComponent implements OnInit {
   user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+  @ViewChild('staticTabs', {static: true}) staticTabs: TabsetComponent;
   constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -23,6 +25,10 @@ export class MemeberDetailComponent implements OnInit {
         this.user = data['user'];
       }
     );
+    this.route.queryParams.subscribe(params =>{
+      const selectedTabs = params['tab'];
+      this.staticTabs.tabs[selectedTabs > 0 ? selectedTabs : 0].active = true;
+    });
 
     this.galleryOptions = [
       {
@@ -52,6 +58,12 @@ export class MemeberDetailComponent implements OnInit {
 
     return imageUrls;
   }
+
+
+  selectTab(tabId: number) {
+    this.staticTabs.tabs[tabId].active = true;
+  }
+
   // loadUser(){
   //   this.userService.getUser(+this.route.snapshot.params['id']).subscribe(
   //     (userData: User) => {
